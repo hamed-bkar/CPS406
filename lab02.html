@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cypress | Report & Track Urban Issues</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <style>
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+      margin: 0;
+      background-color: #f4f4f4;
+      color: #333;
+      line-height: 1.6;
+    }
+    header {
+      position: relative;
+      text-align: center;
+      color: #fff;
+    }
+    header img.banner {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      filter: brightness(60%);
+    }
+    header .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.4);
+    }
+    header .header-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+    }
+    header .header-content img.logo {
+      width: 150px;
+      margin-bottom: 10px;
+    }
+    header .header-content h1 {
+      margin: 0;
+      font-size: 2.5em;
+    }
+    nav {
+      background: #004080;
+      padding: 10px 0;
+      text-align: center;
+    }
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    nav ul li {
+      display: inline;
+      margin: 0 15px;
+    }
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+    }
+    main {
+      padding: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    section {
+      margin-bottom: 40px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    section h2 {
+      margin-top: 0;
+      color: #004080;
+    }
+    .cta-button {
+      display: inline-block;
+      background: #28a745;
+      color: #fff;
+      padding: 12px 25px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 1.1em;
+      margin-top: 10px;
+    }
+    footer {
+      background: #004080;
+      color: #fff;
+      text-align: center;
+      padding: 15px 10px;
+      font-size: 0.9em;
+    }
+    footer a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+.warning-button {
+    color: #ff0000; /* Red text */
+    border: 2px solid #ff0000;
+    background: #fff;
+    font-size: 1.2em;
+    font-weight: bold;
+    padding: 10px 20px;
+    cursor: pointer;
+    animation: flash 1s infinite;
+  }
+
+  @keyframes flash {
+    0%   { opacity: 1; }
+    50%  { opacity: 0.5; }
+    100% { opacity: 1; }
+  }
+.banner {
+       background: url("night.jpg") no-repeat center center;
+      background-size: cover;       
+      height: 500px;               
+      position: relative;
+      text-align: center;
+      display: flex;              
+      align-items: center;         
+      justify-content: center;    
+      color: #fff;                 
+    }
+
+    .banner::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: rgba(0, 0, 0, 0.4); /* semi-transparent overlay */
+    }
+
+    .banner-text {
+      position: relative;  /* so text is above overlay */
+      font-size: 3rem;     /* bigger text */
+      z-index: 1;          /* ensures text is on top of overlay */
+    }
+  </style>
+</head>
+<body>
+  
+  <header>
+    <img class="banner" src="night.jpg" alt="City of Toronto">
+    <div class="overlay"></div>
+    <div class="header-content">
+     <h1 class="banner-text">Welcome to Cypress</h1>
+      <img class="logo" src="cypress_logo.png" alt="Cypress Logo">
+  
+    </div>
+  </header>
+
+ 
+  <nav>
+    <ul>
+      <li><a href="#about">About Cypress</a></li>
+      <li><a href="#how-it-works">How It Works</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#get-involved">Get Involved</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+
+  <main>
+ <button class="warning-button">WARNING: MAN WITH AN AXE IN DUDNDAS SQUARE</button>    <section id="about">
+      <h2>About Cypress</h2>
+      <p>Cypress is an innovative platform created by the City of Toronto to streamline how citizens report and track street problems. Say goodbye to tedious phone calls and manual processes. With Cypress, you can pinpoint issues on an interactive map, specify the problem type, and receive real-time notifications on the resolution status.</p>
+    </section>
+
+    
+    <section id="how-it-works">
+      <h2>How It Works</h2>
+      <ul>
+        <li><strong>Report Easily:</strong> Locate the issue on our user-friendly map and provide all the necessary details.</li>
+        <li><strong>Track Progress:</strong> Stay updated with notifications as your reported issue moves towards resolution.</li>
+        <li><strong>Prevent Duplicates:</strong> Cypress flags duplicate reports to ensure efficient response.</li>
+      </ul>
+      <a class="cta-button" href="#report">Report an Issue Now</a>
+    </section>
+
+   
+    <section id="features">
+      <h2>Features</h2>
+      <ul>
+        <li><strong>Interactive Mapping:</strong> Pinpoint problem areas with precision.</li>
+        <li><strong>User-Friendly Interface:</strong> Designed with simplicity and clarity for every citizen.</li>
+        <li><strong>Real-Time Notifications:</strong> Get immediate updates on problem resolution.</li>
+        <li><strong>Duplicate Detection:</strong> Cypress identifies and flags duplicate reports.</li>
+      </ul>
+    </section>
+
+    <!-- Get Involved Section -->
+    <section id="get-involved">
+      <h2>Get Involved</h2>
+      <p>Your voice matters! Join the Cypress community and help improve the quality of life in Toronto by reporting street problems and engaging with local solutions.</p>
+      <a class="cta-button" href="#report">Join Cypress Today</a>
+    </section>
+
+    <!-- Report a Problem Section -->
+    <section id="report">
+      <h2>Report a Problem</h2>
+      <p>Ready to make a difference? Use our streamlined reporting form to quickly report issues in your neighborhood.</p>
+      <!-- Placeholder for reporting form -->
+      
+    <form action="https://cs.torontomu.ca/~hbakkar/API.html" method="post" enctype="multipart/form-data">
+
+        <label for="location">Location (Address or coordinates):</label>
+        <input type="text" id="location" name="location" required>
+        <label for="issue">Type of Issue:</label>
+        <select id="issue" name="issue" required>
+          <option value="pothole">Pothole</option>
+          <option value="streetlight">Broken Streetlight</option>
+          <option value="graffiti">Graffiti</option>
+          <option value="other">Other</option>
+        </select>
+        <label for="details">Details:</label>
+        <input type="text" id="details" name="details">
+        <button type="submit" class="cta-button">Submit Report</button>
+      </form>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+      <h2>Contact Cypress</h2>
+      <p>If you have any questions or need further assistance, please feel free to reach out.</p>
+      <p>Email: <a href="mailto:info@cypress.ca">info@cypress.ca</a></p>
+      <p>Follow us on <a href="https://www.instagram.com/p/CGh4a0iASGS/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank">Instagram</a></p>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2024 Cypress | City of Toronto</p>
+  </footer>
+</body>
+</html>
