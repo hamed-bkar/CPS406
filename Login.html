@@ -1,93 +1,298 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Cypress Login</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
-  <style>
-    body {
-      font-family: 'Roboto', Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-      background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-                  url('https://source.unsplash.com/1600x900/?city,night'),
-                  url('toronto.jpg') no-repeat center center;
-      background-size: cover;
-      background-position: center;
+  <head>
+    <meta charset="UTF-8" />
+    <title>Cypress Login</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+    />
+    <script>
+      function initializeDefaultData() {
+        // Check if 'reports' already exists in localStorage
+        if (!localStorage.getItem("reports")) {
+          const defaultReports = {
+            R12345: {
+              latlng: [43.6592, -79.3845],
+              type: "Pothole",
+              details: "",
+              reportedDate: "2025-03-12",
+              verification_status: "Verified",
+              progress_status: "Report Received",
+            },
+            R12346: {
+              latlng: [43.6534, -79.3839],
+              type: "Graffiti",
+              details: "",
+              reportedDate: "2025-03-15",
+              verification_status: "Verified",
+              progress_status: "Report Received",
+            },
+            R12347: {
+              latlng: [43.6509, -79.3769],
+              type: "Broken Streetlight",
+              details: "",
+              reportedDate: "2025-03-18",
+              verification_status: "Verified",
+              progress_status: "Resolving Issue",
+            },
+            R12348: {
+              latlng: [43.6565992, -79.3806612],
+              type: "Man with axe",
+              details: "",
+              reportedDate: "2025-03-20",
+              verification_status: "Verified",
+              progress_status: "Resolving Issue",
+            },
+            R12349: {
+              latlng: [43.6623, -79.3815],
+              type: "Overflowing Garbage Bin",
+              details: "",
+              reportedDate: "2025-03-22",
+              verification_status: "Verified",
+              progress_status: "Resolving Issue",
+            },
+            R12350: {
+              latlng: [43.6575, -79.376],
+              type: "Broken Benches/Public Seating",
+              details: "",
+              reportedDate: "2025-03-25",
+              verification_status: "Verified",
+              progress_status: "Report Received",
+            },
+            R12351: {
+              latlng: [43.6548, -79.389],
+              type: "Cracked/Uneven Sidewalk",
+              details: "",
+              reportedDate: "2025-03-28",
+              verification_status: "Verified",
+              progress_status: "Report Received",
+            },
+            R12352: {
+              latlng: [43.6533, -79.3691],
+              type: "Pothole",
+              details: "",
+              reportedDate: "2025-03-28",
+              verification_status: "Verified",
+              progress_status: "Report Received",
+            },
+            R12353: {
+              latlng: [43.6586, -79.396],
+              type: "Broken Streetlight",
+              details: "",
+              reportedDate: "2025-03-28",
+              verification_status: "Verified",
+              progress_status: "Report Received",
+            },
+          };
+          localStorage.setItem("reports", JSON.stringify(defaultReports));
+        }
 
-      background: url('toronto.jpg') no-repeat center center;
-    
-    }
-    .form-container {
-      background-color: rgba(255, 255, 255, 0.95);
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-      max-width: 400px;
-      width: 90%;
-      text-align: center;
-    }
-    .form-container h2 {
-      margin-bottom: 20px;
-    }
-    .logo {
-      display: block;
-      margin: 0 auto 20px;
-      width: 100px;
-    }
-    label {
-      display: block;
-      text-align: left;
-      font-weight: 500;
-      margin-top: 10px;
-    }
-    input[type="email"],
-    input[type="password"] {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 14px;
-    }
-    button {
-      width: 100%;
-      padding: 12px;
-      background-color: #004080;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    button:hover {
-      background-color: #003366;
-    }
-    .register-link {
-      display: block;
-      margin-top: 10px;
-      font-size: 14px;
-    }
-  </style>
-</head>
-<body>
-  <div class="form-container">
-    <img src="Cypress_logo.png" alt="Cypress Logo" class="logo">
-    <h2>Login to Cypress</h2>
-    <form action="https://cs.torontomu.ca/~hbakkar/lab02.html" method="post">
-      <label>Email:
-        <input type="email" name="email" required>
-      </label>
-      <label>Password:
-        <input type="password" name="password" required>
-      </label>
-      <button type="submit">Login</button>
-    </form>
-    <a href="https://cs.torontomu.ca/~hbakkar/reg.html" class="https://cs.torontomu.ca/~hbakkar/reg.html">Don't have an account? Register here</a>
-  </div>
-</body>
+        if (!localStorage.getItem("users")) {
+          // Default users data
+          const defaultUsers = {
+            "music@gmail.com": {
+              password: "Password123",
+              first_name: "Melody",
+              last_name: "Music",
+              street: "350 Victoria St",
+              city: "Toronto",
+              postal_code: "M5B 2K3",
+              phone_number: "4169795000",
+              reports: ["R12345", "R12346", "R12349"],
+              unread_messages: [
+                {
+                  subject: "Report R12345 Update",
+                  date: "2025-03-30",
+                  content:
+                    "Your pothole report has been updated to 'In Progress'. City workers will address this issue within the next 48 hours.",
+                },
+                {
+                  subject: "Notice of Nearby Work",
+                  date: "2025-03-29",
+                  content:
+                    "We wanted to inform you that there will be construction work near an area you've reported (R12346). The work is scheduled from April 2-5, 2025.",
+                },
+              ],
+              read_messages: [
+                {
+                  subject: "Welcome to Cypress",
+                  date: "2025-03-15",
+                  content:
+                    "Thank you for joining Cypress, the City of Toronto's official urban issue reporting platform. We're excited to have you on board!",
+                },
+              ],
+            },
+          };
+          localStorage.setItem("users", JSON.stringify(defaultUsers));
+        }
+      }
+
+      function resetToDefault() {
+        localStorage.clear();
+        initializeDefaultData();
+      }
+
+      // Initialize data when page loads
+      document.addEventListener("DOMContentLoaded", function () {
+        //resetToDefault();
+        initializeDefaultData();
+      });
+    </script>
+
+    <style>
+      body {
+        font-family: "Roboto", Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+          url("https://source.unsplash.com/1600x900/?city,night"),
+          url("toronto.jpg") no-repeat center center;
+        background-size: cover;
+        background-position: center;
+
+        background: url("toronto.jpg") no-repeat center center;
+      }
+      .form-container {
+        background-color: rgba(255, 255, 255, 0.95);
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        max-width: 400px;
+        width: 90%;
+        text-align: center;
+      }
+      .form-container h2 {
+        margin-bottom: 20px;
+      }
+      .logo {
+        display: block;
+        margin: 0 auto 20px;
+        width: 100px;
+      }
+      label {
+        display: block;
+        text-align: left;
+        font-weight: 500;
+        margin-top: 10px;
+      }
+      input[type="email"],
+      input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+      button {
+        width: 100%;
+        padding: 12px;
+        background-color: #004080;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      button:hover {
+        background-color: #003366;
+      }
+      .register-link {
+        display: block;
+        margin-top: 10px;
+        font-size: 14px;
+      }
+      .error-message {
+        color: #e74c3c;
+        background-color: #fadbd8;
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 15px;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="form-container">
+      <img src="Cypress_logo.png" alt="Cypress Logo" class="logo" />
+      <h2>Login to Cypress</h2>
+      <div id="error-message" class="error-message"></div>
+      <form id="login-form">
+        <label
+          >Email:
+          <input type="email" name="email" id="email" required />
+        </label>
+        <label
+          >Password:
+          <input type="password" name="password" id="password" required />
+        </label>
+        <button type="submit">Login</button>
+      </form>
+      <br />
+      <a
+        href="https://cs.torontomu.ca/~hbakkar/reg.html"
+        class="https://cs.torontomu.ca/~hbakkar/reg.html"
+        >Don't have an account? Register here</a
+      >
+      <!--
+      <a href="reg.html" class="reg.html"
+        >Don't have an account? Register here</a
+      >
+            -->
+      <div class="test-section">
+        <br />
+        <br />
+        <button id="reset-data-button" class="reset-button" type="button">
+          Use this button to reset your users and report data (testing only-
+          will be deleted)
+        </button>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("login-form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+          const errorMessage = document.getElementById("error-message");
+
+          // Get users from localStorage instead of global variable
+          const users = JSON.parse(localStorage.getItem("users")) || {};
+
+          // Check if email exists in the users object
+          if (!users.hasOwnProperty(email)) {
+            errorMessage.textContent =
+              "Invalid email. Please create a new account or use a valid email.";
+            errorMessage.style.display = "block";
+            return;
+          }
+
+          if (users[email].password !== password) {
+            errorMessage.textContent = "Incorrect password. Please try again.";
+            errorMessage.style.display = "block";
+            return;
+          }
+
+          // Store current user in session for other pages to know who's logged in
+          sessionStorage.setItem("currentUser", email);
+          window.location.href = "https://cs.torontomu.ca/~hbakkar/lab02.html";
+          // window.location.href = "lab02.html";
+        });
+
+      document
+        .getElementById("reset-data-button")
+        .addEventListener("click", function () {
+          resetToDefault();
+          alert("Your data is cleared, back to default database");
+        });
+    </script>
+  </body>
 </html>

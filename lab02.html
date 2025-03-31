@@ -19,7 +19,6 @@
       integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
       crossorigin=""
     ></script>
-
     <style>
       body {
         font-family: "Roboto", Arial, sans-serif;
@@ -97,7 +96,6 @@
         margin-top: 0;
         color: #004080;
       }
-      /* Common button style */
       .cta-button {
         display: inline-block;
         color: #fff;
@@ -197,6 +195,109 @@
         max-width: 800px;
         margin: 0 auto;
       }
+      form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .form-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+      }
+      label {
+        font-size: 18px;
+      }
+      select,
+      input[type="text"] {
+        font-size: 16px;
+      }
+      .button-container {
+        margin-top: 20px;
+      }
+      #thank-you-message {
+        display: none;
+        text-align: center;
+        margin: 0;
+      }
+      #make-new-submission {
+        display: block;
+        text-align: center;
+      }
+      .tab-buttons {
+        display: flex;
+        border-bottom: 1px solid #ccc;
+        margin-bottom: 20px;
+      }
+      .tab-btn {
+        padding: 10px 20px;
+        border: none;
+        background: none;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        color: #666;
+      }
+      .tab-btn.active {
+        color: #004080;
+        border-bottom: 3px solid #004080;
+      }
+      .tab-content {
+        display: none;
+      }
+      .tab-content.active {
+        display: block;
+      }
+      .message-card {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      .message-card:hover {
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      .message-card.unread {
+        background-color: #f0f7ff;
+        border-left: 4px solid #004080;
+      }
+      .message-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+      .message-subject {
+        font-weight: bold;
+      }
+      .message-date {
+        color: #666;
+        font-size: 0.9em;
+      }
+      .message-body {
+        color: #333;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f4f4f4;
+      }
+      tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+      tr:hover {
+        background-color: #f0f0f0;
+      }
     </style>
   </head>
   <body>
@@ -219,9 +320,12 @@
         <li><a href="#contact">Contact</a></li>
         <li>
           <a href="#my-reports" id="my-reports-link"
-            >My Reports<span class="notification-badge">3</span></a
+            >My Reports<span class="notification-badge" style="display: none"
+              >0</span
+            ></a
           >
         </li>
+        <li><a href="#" id="logout-link">Logout</a></li>
       </ul>
     </nav>
 
@@ -313,33 +417,50 @@
           quickly report issues in your neighborhood.
         </p>
         <div id="report-map"></div>
+        <br />
         <!-- Placeholder for reporting form -->
 
         <form
-          action="https://cs.torontomu.ca/~hbakkar/API.html"
+          action="https://cs.torontomu.ca/~hbakkar/lab02.html"
           method="post"
           enctype="multipart/form-data"
         >
-          <label for="location">Location (Address or coordinates):</label>
-          <input type="text" id="location" name="location" required />
-          <label for="issue">Type of Issue:</label>
-          <select id="issue" name="issue" required>
-            <option value="pothole">Pothole</option>
-            <option value="streetlight">Broken Streetlight</option>
-            <option value="street_sign">Damaged/Missing Street Sign</option>
-            <option value="sidewalk">Cracked/Uneven Sidewalk</option>
-            <option value="garbage_bin">Overflowing Garbage Bin</option>
-            <option value="seating">Broken Benches/Public Seating</option>
-            <option value="blocked_road">Blocked Road</option>
-            <option value="graffiti">Graffiti</option>
-            <option value="other">Other</option>
-          </select>
-          <label for="details">Details:</label>
-          <input type="text" id="details" name="details" />
+          <div class="form-row">
+            <label for="issue">Type of Issue:</label>
+            <select id="issue" name="issue" required>
+              <option value="Pothole">Pothole</option>
+              <option value="Broken Streetlight">Broken Streetlight</option>
+              <option value="Damaged/Missing Street Sign">
+                Damaged/Missing Street Sign
+              </option>
+              <option value="Cracked/Uneven Sidewalk">
+                Cracked/Uneven Sidewalk
+              </option>
+              <option value="Overflowing Garbage Bin">
+                Overflowing Garbage Bin
+              </option>
+              <option value="Broken Benches/Public Seating">
+                Broken Benches/Public Seating
+              </option>
+              <option value="Blocked Road">Blocked Road</option>
+              <option value="Graffiti">Graffiti</option>
+              <option value="Other">Other</option>
+            </select>
+
+            <label for="details">Details:</label>
+            <input type="text" id="details" name="details" />
+          </div>
+
           <div class="button-container">
             <a class="cta-button green-button" href="#">Submit Report</a>
           </div>
         </form>
+
+        <!-- Hidden elements after submission -->
+        <div id="thank-you-message" style="display: none">
+          <p id="thank-you-text"></p>
+          <a href="#" id="make-new-submission">Make New Submission</a>
+        </div>
       </section>
 
       <!-- Contact Section -->
@@ -360,9 +481,94 @@
         </p>
       </section>
 
+      <!-- My Reports Section -->
       <section id="my-reports" style="display: none">
         <h2>My Reports</h2>
-        <p>Here are the details of your reports...</p>
+
+        <!-- Reports Tab -->
+        <div class="tab-buttons">
+          <button id="reports-tab-btn" class="tab-btn active">
+            My Reports
+          </button>
+          <button id="inbox-tab-btn" class="tab-btn">
+            Inbox
+            <span
+              id="unread-badge"
+              class="notification-badge"
+              style="display: none"
+              >0</span
+            >
+          </button>
+        </div>
+
+        <!-- Reports Content -->
+        <div id="reports-content" class="tab-content active">
+          <div
+            id="no-reports-message"
+            style="text-align: center; margin: 20px 0; display: none"
+          >
+            <p>
+              You don't have any reports yet. Submit a report to get started!
+            </p>
+          </div>
+
+          <table
+            id="reports-table"
+            style="width: 100%; border-collapse: collapse; margin-top: 20px"
+          >
+            <thead>
+              <tr>
+                <th
+                  style="border: 1px solid #ddd; padding: 8px; text-align: left"
+                >
+                  Report ID
+                </th>
+                <th
+                  style="border: 1px solid #ddd; padding: 8px; text-align: left"
+                >
+                  Date
+                </th>
+                <th
+                  style="border: 1px solid #ddd; padding: 8px; text-align: left"
+                >
+                  Type
+                </th>
+                <th
+                  style="border: 1px solid #ddd; padding: 8px; text-align: left"
+                >
+                  Details
+                </th>
+                <th
+                  style="border: 1px solid #ddd; padding: 8px; text-align: left"
+                >
+                  Verification Status
+                </th>
+                <th
+                  style="border: 1px solid #ddd; padding: 8px; text-align: left"
+                >
+                  Progress
+                </th>
+              </tr>
+            </thead>
+            <tbody id="reports-table-body">
+              <!-- Report rows will be added here dynamically -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Inbox Content -->
+        <div id="inbox-content" class="tab-content" style="display: none">
+          <div
+            id="no-messages-message"
+            style="text-align: center; margin: 20px 0; display: none"
+          >
+            <p>You don't have any messages yet.</p>
+          </div>
+
+          <div id="messages-container">
+            <!-- Messages will be added here dynamically -->
+          </div>
+        </div>
       </section>
     </main>
 
@@ -370,130 +576,667 @@
     <footer>
       <p>&copy; 2024 Cypress | City of Toronto</p>
     </footer>
-  </body>
-</html>
 
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const myReportsSection = document.getElementById("my-reports");
-    myReportsSection.style.display = "none";
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        let nearbyMap = null;
+        let reportMap = null;
 
-    const reportSection = document.getElementById("report");
-    reportSection.style.display = "none";
+        const myReportsSection = document.getElementById("my-reports");
+        const reportSection = document.getElementById("report");
 
-    const sections = document.querySelectorAll(
-      "main section:not(#my-reports):not(#report)"
-    );
-    sections.forEach((section) => {
-      section.style.display = "block";
-    });
-
-    function hideAllSections() {
-      const allSections = document.querySelectorAll("main section");
-      allSections.forEach((section) => {
-        section.style.display = "none";
-      });
-    }
-
-    function showAllSectionsExceptSpecial() {
-      const otherSections = document.querySelectorAll(
-        "main section:not(#my-reports):not(#report)"
-      );
-      otherSections.forEach((section) => {
-        section.style.display = "block";
-      });
-    }
-
-    document
-      .getElementById("my-reports-link")
-      .addEventListener("click", function (event) {
-        event.preventDefault();
-        hideAllSections();
-        myReportsSection.style.display = "block";
-      });
-
-    function initializeReportMap() {
-      if (!window.reportMapInitialized) {
-        var reportMap = L.map("report-map").setView(
-          [43.6565992, -79.3806612],
-          16
-        );
-        L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-          attribution:
-            '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-        }).addTo(reportMap);
-        window.reportMapInitialized = true;
-
-        var reportMarker = L.marker([43.6565992, -79.3806612], {
-          draggable: true,
-        }).addTo(reportMap);
-        reportMarker.on("dragend", function (event) {
-          var marker = event.target;
-          var position = marker.getLatLng();
-          document.getElementById("location").value = `${position.lat.toFixed(
-            4
-          )}, ${position.lng.toFixed(4)}`;
-        });
-      }
-    }
-
-    const reportButton = document.querySelector('a.cta-button[href="#report"]');
-    if (reportButton) {
-      reportButton.addEventListener("click", function (event) {
-        event.preventDefault();
-        hideAllSections();
-        reportSection.style.display = "block";
-        initializeReportMap();
-      });
-    }
-
-    const navLinks = document.querySelectorAll(
-      'nav a[href^="#"]:not(#my-reports-link)'
-    );
-    navLinks.forEach((link) => {
-      link.addEventListener("click", function (event) {
+        // Hide special sections initially
         myReportsSection.style.display = "none";
         reportSection.style.display = "none";
-        showAllSectionsExceptSpecial();
-        const targetSection = document.querySelector(link.getAttribute("href"));
-        targetSection.scrollIntoView();
+
+        updateUnreadBadge();
+
+        // Show other sections
+        const sections = document.querySelectorAll(
+          "main section:not(#my-reports):not(#report)"
+        );
+        sections.forEach((section) => {
+          section.style.display = "block";
+        });
+
+        const logoutLink = document.getElementById("logout-link");
+        const LAT_LON_THRESHOLD = 0.00045; // Roughly 50 meters
+
+        // Function to initialize nearby map
+        function initializeNearbyMap() {
+          const nearbyMapContainer = document.getElementById("nearby-map");
+
+          if (nearbyMap) {
+            nearbyMap.remove();
+            nearbyMap = null;
+          }
+
+          try {
+            nearbyMapContainer.style.display = "block";
+            nearbyMap = L.map(nearbyMapContainer).setView(
+              [43.6565992, -79.3806612],
+              15
+            );
+
+            L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+              attribution:
+                '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+              maxZoom: 19,
+            }).addTo(nearbyMap);
+
+            // Add markers for existing reports
+            const reports = JSON.parse(localStorage.getItem("reports")) || {};
+            Object.entries(reports).forEach(([reportId, report]) => {
+              if (
+                report.latlng &&
+                Array.isArray(report.latlng) &&
+                report.latlng.length === 2
+              ) {
+                try {
+                  L.marker(report.latlng)
+                    .addTo(nearbyMap)
+                    .bindPopup(
+                      `<b>${report.type}</b><br>${
+                        report.verification_status || "Pending"
+                      }`
+                    );
+                } catch (err) {
+                  console.error("Error adding marker:", err);
+                }
+              }
+            });
+
+            setTimeout(() => {
+              nearbyMap.invalidateSize();
+            }, 100);
+          } catch (err) {
+            console.error("Error initializing nearby map:", err);
+          }
+        }
+
+        // Function to initialize report map
+        function initializeReportMap() {
+          const reportMapContainer = document.getElementById("report-map");
+
+          if (reportMap) {
+            reportMap.remove();
+            reportMap = null;
+          }
+
+          try {
+            reportMapContainer.style.display = "block";
+            reportMap = L.map(reportMapContainer).setView(
+              [43.6565992, -79.3806612],
+              16
+            );
+
+            L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+              attribution:
+                '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+              maxZoom: 19,
+            }).addTo(reportMap);
+
+            // Add the draggable marker
+            const reportMarker = L.marker([43.6565992, -79.3806612], {
+              draggable: true,
+            }).addTo(reportMap);
+
+            reportMarker.on("dragend", function (event) {
+              var marker = event.target;
+              var position = marker.getLatLng();
+            });
+
+            setTimeout(() => {
+              reportMap.invalidateSize();
+            }, 100);
+          } catch (err) {
+            console.error("Error initializing report map:", err);
+          }
+        }
+
+        window.addEventListener("load", () => {
+          if (
+            window.location.hash === "" ||
+            window.location.hash === "#" ||
+            window.location.hash === "#nearby-issues"
+          ) {
+            setTimeout(() => {
+              initializeNearbyMap();
+            }, 500);
+          }
+        });
+
+        // Hide all sections function
+        function hideAllSections() {
+          const allSections = document.querySelectorAll("main section");
+          allSections.forEach((section) => {
+            section.style.display = "none";
+          });
+        }
+
+        // Show all sections except special ones
+        function showAllSectionsExceptSpecial() {
+          const otherSections = document.querySelectorAll(
+            "main section:not(#my-reports):not(#report)"
+          );
+          otherSections.forEach((section) => {
+            section.style.display = "block";
+          });
+          setTimeout(() => {
+            initializeNearbyMap();
+          }, 100);
+        }
+
+        // My Reports link handler
+        document
+          .getElementById("my-reports-link")
+          .addEventListener("click", function (event) {
+            event.preventDefault();
+            hideAllSections();
+            myReportsSection.style.display = "block";
+          });
+
+        // Navigation link handlers
+        const navLinks = document.querySelectorAll(
+          'nav a[href^="#"]:not(#my-reports-link):not(#logout-link)'
+        );
+        navLinks.forEach((link) => {
+          link.addEventListener("click", function (event) {
+            const targetId = link.getAttribute("href").substring(1);
+            if (targetId !== "report") {
+              myReportsSection.style.display = "none";
+              reportSection.style.display = "none";
+              showAllSectionsExceptSpecial();
+              const targetSection = document.querySelector(
+                link.getAttribute("href")
+              );
+              if (targetSection) {
+                targetSection.scrollIntoView();
+              }
+            } else {
+              event.preventDefault();
+              hideAllSections();
+              reportSection.style.display = "block";
+              initializeReportMap();
+              document.getElementById("details").value = "";
+              document.getElementById("issue").selectedIndex = 0;
+              document.getElementById("thank-you-message").style.display =
+                "none";
+              document.querySelector("form").style.display = "block";
+            }
+          });
+        });
+
+        // Logout link handler
+        if (logoutLink) {
+          logoutLink.addEventListener("click", (event) => {
+            event.preventDefault();
+            sessionStorage.removeItem("currentUser");
+            window.location.href =
+              "https://cs.torontomu.ca/~hbakkar/Login.html";
+          });
+        }
+
+        // Report button handler
+        const reportButton = document.querySelector(
+          'a.cta-button[href="#report"]'
+        );
+        if (reportButton) {
+          reportButton.addEventListener("click", function (event) {
+            event.preventDefault();
+            hideAllSections();
+            reportSection.style.display = "block";
+
+            document.querySelector("form").style.display = "block";
+            document.getElementById("thank-you-message").style.display = "none";
+
+            setTimeout(() => {
+              initializeReportMap();
+            }, 100);
+
+            document.getElementById("details").value = "";
+            document.getElementById("issue").selectedIndex = 0;
+          });
+        }
+
+        // Submit report button handler
+        const submitReportButton = document.querySelector(
+          '.green-button[href="#"]'
+        );
+        const thankYouMessage = document.getElementById("thank-you-message");
+        const thankYouText = document.getElementById("thank-you-text");
+        const makeNewSubmission = document.getElementById(
+          "make-new-submission"
+        );
+        const reportForm = document.querySelector("form");
+
+        if (submitReportButton) {
+          submitReportButton.addEventListener("click", function (event) {
+            event.preventDefault();
+
+            const issueType = document.getElementById("issue").value;
+            const details = document.getElementById("details").value;
+
+            let lat, lng;
+            if (reportMap) {
+              let markerFound = false;
+
+              Object.values(reportMap._layers).forEach((layer) => {
+                if (layer instanceof L.Marker && layer.dragging) {
+                  const pos = layer.getLatLng();
+                  lat = pos.lat;
+                  lng = pos.lng;
+                  markerFound = true;
+                }
+              });
+
+              if (!markerFound) {
+                const center = reportMap.getCenter();
+                lat = center.lat;
+                lng = center.lng;
+              }
+            } else {
+              lat = 43.6565992;
+              lng = -79.3806612;
+            }
+
+            // Get current user
+            const currentUser = sessionStorage.getItem("currentUser");
+
+            if (!currentUser) {
+              alert("You must be logged in to submit a report");
+              return;
+            }
+
+            // Get existing reports
+            let reports = JSON.parse(localStorage.getItem("reports")) || {};
+
+            // Check for duplicates
+            let isDuplicate = false;
+            let duplicateReportId = null;
+
+            Object.entries(reports).forEach(([reportId, report]) => {
+              if (
+                report.type.toLowerCase() === issueType.toLowerCase() &&
+                checkDuplicateReport(
+                  lat,
+                  lng,
+                  report.latlng[0],
+                  report.latlng[1]
+                )
+              ) {
+                isDuplicate = true;
+                duplicateReportId = reportId;
+              }
+            });
+
+            // Get users data
+            let users = JSON.parse(localStorage.getItem("users")) || {};
+
+            if (isDuplicate && duplicateReportId) {
+              // Case A: Report already exists
+              if (users[currentUser]) {
+                if (!users[currentUser].reports) {
+                  users[currentUser].reports = [];
+                }
+
+                if (!users[currentUser].reports.includes(duplicateReportId)) {
+                  users[currentUser].reports.push(duplicateReportId);
+                  localStorage.setItem("users", JSON.stringify(users));
+                  thankYouText.textContent =
+                    "Report already exists. You have been subscribed to this report.";
+                } else {
+                  thankYouText.textContent =
+                    "You are already subscribed to this report.";
+                }
+              }
+            } else {
+              // Case B: New report
+              const reportId = generateReportId();
+              const currentDate = new Date().toISOString().split("T")[0];
+
+              // Create new report
+              reports[reportId] = {
+                latlng: [lat, lng],
+                type: issueType,
+                details: details,
+                reportedDate: currentDate,
+                verification_status: "Verified",
+                progress_status: "Report Received",
+              };
+
+              // Save to localStorage
+              localStorage.setItem("reports", JSON.stringify(reports));
+
+              // Create a new unread message for the user
+              const newMessage = {
+                subject: `Report ${reportId} Update`,
+                date: currentDate,
+                content:
+                  "Your report has been received. City workers will address this issue within the next 48 hours.",
+              };
+
+              // Subscribe user
+              if (users[currentUser]) {
+                if (!users[currentUser].reports) {
+                  users[currentUser].reports = [];
+                }
+                users[currentUser].reports.push(reportId);
+                users[currentUser].unread_messages.push(newMessage);
+                localStorage.setItem("users", JSON.stringify(users));
+              }
+
+              thankYouText.textContent =
+                "Thank you for your submission. You have been subscribed to this report.";
+            }
+
+            // Hide form and map
+            reportForm.style.display = "none";
+            document.getElementById("report-map").style.display = "none";
+
+            // Show thank you message
+            thankYouMessage.style.display = "block";
+
+            // Reload messages
+            loadInboxMessages();
+
+            // Update badge
+            updateUnreadBadge();
+            loadMyReports();
+          });
+        }
+
+        // Make new submission button handler
+        if (makeNewSubmission) {
+          makeNewSubmission.addEventListener("click", function (event) {
+            event.preventDefault();
+
+            // Reset form and show it
+            document.getElementById("details").value = "";
+            document.getElementById("issue").selectedIndex = 0;
+            reportForm.style.display = "block";
+
+            // Hide thank you message
+            thankYouMessage.style.display = "none";
+
+            // Show and initialize report map only
+            document.getElementById("report-map").style.display = "block";
+            setTimeout(() => {
+              initializeReportMap();
+            }, 100);
+          });
+        }
+
+        function checkDuplicateReport(lat1, lon1, lat2, lon2) {
+          const latDiff = Math.abs(lat1 - lat2);
+          const lonDiff = Math.abs(lon1 - lon2);
+          return latDiff < LAT_LON_THRESHOLD && lonDiff < LAT_LON_THRESHOLD;
+        }
+
+        function generateReportId() {
+          return "R" + new Date().getTime();
+        }
+
+        const reportsTabBtn = document.getElementById("reports-tab-btn");
+        const inboxTabBtn = document.getElementById("inbox-tab-btn");
+        const reportsContent = document.getElementById("reports-content");
+        const inboxContent = document.getElementById("inbox-content");
+
+        // Tab switching functionality
+        reportsTabBtn.addEventListener("click", function () {
+          // Activate reports tab
+          reportsTabBtn.classList.add("active");
+          inboxTabBtn.classList.remove("active");
+          reportsContent.style.display = "block";
+          inboxContent.style.display = "none";
+        });
+
+        inboxTabBtn.addEventListener("click", function () {
+          // Activate inbox tab
+          inboxTabBtn.classList.add("active");
+          reportsTabBtn.classList.remove("active");
+          inboxContent.style.display = "block";
+          reportsContent.style.display = "none";
+        });
+
+        // Initialize My Reports section when page loads
+        loadMyReports();
+        loadInboxMessages();
+
+        // Update unread message badge
+        updateUnreadBadge();
       });
-    });
 
-    const markers = [
-      {
-        latlng: [43.6565992, -79.3806612],
-        name: "Pothole",
-        description: "Verified",
-      },
-      {
-        latlng: [43.6534, -79.3839],
-        name: "Graffiti",
-        description: "Verified",
-      },
-      {
-        latlng: [43.6509, -79.3769],
-        name: "Pothole",
-        description: "Verified",
-      },
-      {
-        latlng: [43.6592, -79.3845],
-        name: "Man with axe",
-        description: "Verified",
-      },
-    ];
+      // Function to load user's reports into the table
+      function loadMyReports() {
+        // Get current user from session storage
+        const currentUser = sessionStorage.getItem("currentUser");
+        if (!currentUser) return;
 
-    var nearbyMap = L.map("nearby-map").setView([43.6565992, -79.3806612], 15);
-    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution:
-        '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    }).addTo(nearbyMap);
+        // Get users data from local storage
+        const users = JSON.parse(localStorage.getItem("users")) || {};
+        const user = users[currentUser];
 
-    // Add markers to the map
-    markers.forEach((marker) => {
-      L.marker(marker.latlng)
-        .addTo(nearbyMap)
-        .bindPopup(`<b>${marker.name}</b><br>${marker.description}`);
-    });
-  });
-</script>
+        if (!user || !user.reports || user.reports.length === 0) {
+          // No reports case
+          document.getElementById("reports-table").style.display = "none";
+          document.getElementById("no-reports-message").style.display = "block";
+          return;
+        }
+
+        // User has reports
+        document.getElementById("reports-table").style.display = "table";
+        document.getElementById("no-reports-message").style.display = "none";
+
+        // Get reports data
+        const reports = JSON.parse(localStorage.getItem("reports")) || {};
+        const tableBody = document.getElementById("reports-table-body");
+
+        // Clear table
+        tableBody.innerHTML = "";
+
+        // Add each report to the table
+        user.reports.forEach((reportId) => {
+          const report = reports[reportId];
+          if (!report) return; // Skip if report doesn't exist
+
+          const row = document.createElement("tr");
+
+          // Create and populate cells
+          row.innerHTML = `
+      <td>${reportId}</td>
+      <td>${report.reportedDate}</td>
+      <td>${report.type}</td>
+      <td>${report.details || "N/A"}</td>
+      <td>${report.verification_status || "Pending"}</td>
+      <td>${report.progress_status || "Pending"}</td>
+    `;
+
+          tableBody.appendChild(row);
+        });
+      }
+
+      // Function to load inbox messages with sorting
+      function loadInboxMessages() {
+        // Get current user
+        const currentUser = sessionStorage.getItem("currentUser");
+        if (!currentUser) return;
+
+        // Get user data
+        const users = JSON.parse(localStorage.getItem("users")) || {};
+        const user = users[currentUser];
+
+        if (!user) return;
+
+        // Get unread and read messages
+        const unreadMessages = user.unread_messages || [];
+        const readMessages = user.read_messages || [];
+
+        const messagesContainer = document.getElementById("messages-container");
+        const noMessagesMessage = document.getElementById(
+          "no-messages-message"
+        );
+
+        // Check if there are any messages
+        if (unreadMessages.length === 0 && readMessages.length === 0) {
+          messagesContainer.style.display = "none";
+          noMessagesMessage.style.display = "block";
+          return;
+        }
+
+        // There are messages to display
+        messagesContainer.style.display = "block";
+        noMessagesMessage.style.display = "none";
+
+        // Clear container
+        messagesContainer.innerHTML = "";
+
+        // Combine messages and add a property to track original status
+        const allMessages = [
+          ...unreadMessages.map((msg, index) => ({
+            ...msg,
+            isUnread: true,
+            originalIndex: index,
+          })),
+          ...readMessages.map((msg, index) => ({
+            ...msg,
+            isUnread: false,
+            originalIndex: index,
+          })),
+        ];
+
+        // Sort messages by date, newest first
+        allMessages.sort((a, b) => {
+          const dateA = new Date(a.date || "1970-01-01");
+          const dateB = new Date(b.date || "1970-01-01");
+          return dateB - dateA; // Descending order (newest first)
+        });
+
+        // Add all messages to container in sorted order
+        allMessages.forEach((message) => {
+          const messageCard = createMessageCard(
+            message,
+            message.isUnread,
+            message.originalIndex
+          );
+          messagesContainer.appendChild(messageCard);
+        });
+      }
+
+      // Helper function to create a message card
+      function createMessageCard(message, isUnread, index) {
+        const card = document.createElement("div");
+        card.className = `message-card ${isUnread ? "unread" : ""}`;
+        card.dataset.index = index;
+        card.dataset.status = isUnread ? "unread" : "read";
+
+        card.innerHTML = `
+    <div class="message-header">
+      <span class="message-subject">${message.subject || "No Subject"}</span>
+      <span class="message-date">${message.date || "No date"}</span>
+    </div>
+    <div class="message-body">
+      ${message.content || "No content"}
+    </div>
+  `;
+
+        // Add click event to mark as read
+        if (isUnread) {
+          card.addEventListener("click", function () {
+            markMessageAsRead(index);
+          });
+        }
+
+        return card;
+      }
+
+      // Function to mark a message as read
+      function markMessageAsRead(index) {
+        const currentUser = sessionStorage.getItem("currentUser");
+        if (!currentUser) return;
+
+        const users = JSON.parse(localStorage.getItem("users")) || {};
+        const user = users[currentUser];
+
+        if (
+          !user ||
+          !user.unread_messages ||
+          index >= user.unread_messages.length
+        )
+          return;
+
+        // Move message from unread to read
+        const message = user.unread_messages.splice(index, 1)[0];
+        if (!user.read_messages) user.read_messages = [];
+        user.read_messages.push(message);
+
+        // Save updated user data
+        localStorage.setItem("users", JSON.stringify(users));
+
+        // Reload messages
+        loadInboxMessages();
+
+        // Update badge
+        updateUnreadBadge();
+      }
+
+      // Function to update the unread badge
+      // Function to update the unread badge
+      function updateUnreadBadge() {
+        const currentUser = sessionStorage.getItem("currentUser");
+        if (!currentUser) return;
+
+        const users = JSON.parse(localStorage.getItem("users")) || {};
+        const user = users[currentUser];
+
+        if (!user) return;
+
+        const unreadCount = (user.unread_messages || []).length;
+        const unreadBadge = document.getElementById("unread-badge");
+        const navBadge = document.querySelector(
+          "#my-reports-link .notification-badge"
+        );
+
+        // Update inbox tab badge
+        if (unreadCount > 0) {
+          unreadBadge.textContent = unreadCount;
+          unreadBadge.style.display = "inline";
+        } else {
+          unreadBadge.style.display = "none";
+        }
+
+        // Update navigation badge - CHANGED to only show unread messages
+        if (navBadge) {
+          navBadge.textContent = unreadCount;
+          navBadge.style.display = unreadCount > 0 ? "inline" : "none";
+        }
+      }
+
+      // Call this when document is loaded
+      document.addEventListener("DOMContentLoaded", function () {
+        // Initialize sample messages
+        initializeSampleMessages();
+
+        // Make sure the My Reports section loads appropriately
+        const myReportsLink = document.getElementById("my-reports-link");
+        myReportsLink.addEventListener("click", function (e) {
+          e.preventDefault();
+
+          // Hide all sections first
+          const allSections = document.querySelectorAll("main section");
+          allSections.forEach((section) => {
+            section.style.display = "none";
+          });
+
+          // Show My Reports section
+          document.getElementById("my-reports").style.display = "block";
+
+          // Load reports and messages
+          loadMyReports();
+          loadInboxMessages();
+          updateUnreadBadge();
+        });
+      });
+    </script>
+  </body>
+</html>

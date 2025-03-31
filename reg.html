@@ -1,120 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Cypress Registration</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
-  <style>
-    body {
-      font-family: 'Roboto', Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-      /* Background image with dark overlay for readability */
-      background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-                  url('https://source.unsplash.com/1600x900/?toronto,city');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-    }
-    .form-container {
-      background-color: rgba(255, 255, 255, 0.95);
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-      max-width: 500px;
-      width: 90%;
-      text-align: left;
-    }
-    .form-container h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .logo {
-      display: block;
-      margin: 0 auto 20px;
-    }
-    label {
-      display: block;
-      margin-top: 10px;
-      font-weight: 500;
-    }
-    input[type="text"],
-    input[type="email"],
-    input[type="file"],
-    select {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-      font-size: 14px;
-    }
-    button {
-      width: 100%;
-      padding: 12px;
-      background-color: #28a745;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    button:hover {
-      background-color: #218838;
-    }
-  </style>
-</head>
-<body>
-  <div class="form-container">
-    <!-- Cypress Logo (replace the src URL with your own logo image if needed) -->
-    <img src="Cypress_logo.png" alt="Cypress Logo" class="logo">
-    <h2>Cypress Registration</h2>
-    <form action="https://cs.torontomu.ca/~hbakkar/lab02.html" method="post" enctype="multipart/form-data">
-      <label>First Name:
-        <input type="text" name="first_name" required>
-      </label>
-      <label>Last Name:
-        <input type="text" name="last_name" required>
-      </label>
-      <label>Street:
-        <input type="text" name="street" required>
-      </label>
-      <label>City:
-        <input type="text" name="city" required>
-      </label>
-      <label>Province:
-        <select name="province">
-          <option value="ON">Ontario</option>
-          <option value="QC">Quebec</option>
-          <option value="Yukon">Yukon Territory</option>
-          <option value="NorthwestTerritories">Northwest Territories</option>
-          <option value="Nunavut">Nunavut</option>
-          <option value="BritishColumbia">British Columbia</option>
-          <option value="Alberta">Alberta</option>
-          <option value="Saskatchewan">Saskatchewan</option>
-          <option value="Manitoba">Manitoba</option>
-          <option value="NewBrunswick">New Brunswick</option>
-          <option value="NovaScotia">Nova Scotia</option>
-          <option value="PEI">Prince Edward Island</option>
-          <option value="NFLB">Newfoundland & Labrador</option>
-        </select>
-      </label>
-      <label>Postal Code:
-        <input type="text" name="postal_code" required>
-      </label>
-      <label>Phone Number:
-        <input type="text" name="phone" required>
-      </label>
-      <label>Email:
-        <input type="email" name="email" required>
-      </label>
-            <button type="submit">Submit</button>
-    </form>
-  </div>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Cypress Registration</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+    />
+    <script>
+      const users = JSON.parse(localStorage.getItem("users")) || {};
+    </script>
+    <style>
+      body {
+        font-family: "Roboto", Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        /* Background image with dark overlay for readability */
+        background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+          url("https://source.unsplash.com/1600x900/?toronto,city");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+      .form-container {
+        background-color: rgba(255, 255, 255, 0.95);
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        max-width: 500px;
+        width: 90%;
+        text-align: left;
+      }
+      .form-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .logo {
+        display: block;
+        margin: 0 auto 20px;
+      }
+      label {
+        display: block;
+        margin-top: 10px;
+        font-weight: 500;
+      }
+      input[type="text"],
+      input[type="email"],
+      input[type="file"],
+      input[type="password"],
+      select {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 14px;
+      }
+      button {
+        width: 100%;
+        padding: 12px;
+        background-color: #28a745;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      button:hover {
+        background-color: #218838;
+      }
+      .email-error-message {
+        color: #e74c3c;
+        background-color: #fadbd8;
+        padding: 10px;
+        border-radius: 4px;
+        margin-top: 3px;
+        margin-bottom: 15px;
+        display: none;
+      }
+      .password-error-message {
+        color: #e74c3c;
+        background-color: #fadbd8;
+        padding: 10px;
+        border-radius: 4px;
+        margin-top: 3px;
+        margin-bottom: 15px;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="form-container">
+      <!-- Cypress Logo (replace the src URL with your own logo image if needed) -->
+      <img src="Cypress_logo.png" alt="Cypress Logo" class="logo" />
+      <h2>Cypress Registration</h2>
+      <form
+        action="https://cs.torontomu.ca/~hbakkar/lab02.html"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <label
+          >First Name:
+          <input type="text" name="first_name" required />
+        </label>
+        <label
+          >Last Name:
+          <input type="text" name="last_name" required />
+        </label>
+        <label
+          >Street:
+          <input type="text" name="street" required />
+        </label>
+        <label
+          >City:
+          <input type="text" name="city" required />
+        </label>
+        <label
+          >Province:
+          <select name="province">
+            <option value="ON">Ontario</option>
+            <option value="QC">Quebec</option>
+            <option value="Yukon">Yukon Territory</option>
+            <option value="NorthwestTerritories">Northwest Territories</option>
+            <option value="Nunavut">Nunavut</option>
+            <option value="BritishColumbia">British Columbia</option>
+            <option value="Alberta">Alberta</option>
+            <option value="Saskatchewan">Saskatchewan</option>
+            <option value="Manitoba">Manitoba</option>
+            <option value="NewBrunswick">New Brunswick</option>
+            <option value="NovaScotia">Nova Scotia</option>
+            <option value="PEI">Prince Edward Island</option>
+            <option value="NFLB">Newfoundland & Labrador</option>
+          </select>
+        </label>
+        <label
+          >Postal Code:
+          <input type="text" name="postal_code" required />
+        </label>
+        <label
+          >Phone Number:
+          <input type="text" name="phone" required />
+        </label>
+        <p id="emailErrorMessage" class="email-error-message"></p>
+        <label
+          >Email:
+          <input type="email" name="email" required />
+        </label>
+        <label
+          >Password:
+          <input type="password" name="password" id="passwordInput" required />
+        </label>
+        <label
+          >Re-type Password:
+          <input
+            type="password"
+            name="confirmPassword"
+            id="confirmPasswordInput"
+            required
+          />
+        </label>
+        <p id="passwordErrorMessage" class="password-error-message"></p>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const form = document.querySelector("form");
+        const emailErrorMessage = document.getElementById("emailErrorMessage");
+        const passwordErrorMessage = document.getElementById(
+          "passwordErrorMessage"
+        );
+
+        form.addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          let formData = new FormData(form);
+          const users = JSON.parse(localStorage.getItem("users")) || {};
+          let email = formData.get("email");
+          let password = document.getElementById("passwordInput").value;
+          let confirmPassword = document.getElementById(
+            "confirmPasswordInput"
+          ).value;
+
+          // Hide error messages before validation
+          emailErrorMessage.style.display = "none";
+          emailErrorMessage.textContent = "";
+          passwordErrorMessage.style.display = "none";
+          passwordErrorMessage.textContent = "";
+
+          // Check if the email is already in use
+          if (users.hasOwnProperty(email)) {
+            emailErrorMessage.textContent =
+              "Error: This email is already in use.";
+            emailErrorMessage.style.display = "block";
+            return;
+          }
+
+          // Check if the passwords match
+          if (password !== confirmPassword) {
+            passwordErrorMessage.textContent = "Passwords do not match.";
+            passwordErrorMessage.style.display = "block";
+            return;
+          }
+
+          // Check if the password meets the minimum length requirement
+          if (password.length < 6) {
+            passwordErrorMessage.textContent =
+              "Error: Password must be at least 6 characters long.";
+            passwordErrorMessage.style.display = "block";
+            return;
+          }
+
+          const today = new Date();
+          const formattedDate = today.toISOString().split("T")[0];
+
+          // Create the new user object
+          let newUser = {
+            password: password,
+            first_name: formData.get("first_name"),
+            last_name: formData.get("last_name"),
+            street: formData.get("street"),
+            city: formData.get("city"),
+            postal_code: formData.get("postal_code"),
+            phone_number: formData.get("phone"),
+            reports: [],
+            unread_messages: [
+              {
+                subject: "Welcome to Cypress",
+                date: formattedDate,
+                content:
+                  "Thank you for joining Cypress, the City of Toronto's official urban issue reporting platform. We're excited to have you on board!",
+              },
+            ],
+            read_messages: [],
+          };
+
+          users[email] = newUser;
+          localStorage.setItem("users", JSON.stringify(users));
+
+          // Show success alert and redirect to login
+          alert("Account successfully created!");
+          window.location.href = "https://cs.torontomu.ca/~hbakkar/Login.html";
+          // window.location.href = "Login.html";
+        });
+      });
+    </script>
+  </body>
 </html>
