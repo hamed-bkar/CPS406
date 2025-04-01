@@ -135,7 +135,7 @@
         font-weight: bold;
         padding: 10px 20px;
         cursor: pointer;
-        animation: flash 1s infinite;
+        animation: flash 1s infinite, move-left-right 7s linear infinite;
       }
 
       @keyframes flash {
@@ -149,6 +149,31 @@
           opacity: 1;
         }
       }
+
+      
+@keyframes move-left-right {
+    0% {
+        transform: translateX(-550px);
+    }
+    50% {
+        transform: translateX(550px);
+    }
+    100% {
+        transform: translateX(-550px);
+    }
+}
+h2::before {
+    content: "\1F341";
+    margin-right: 10px;
+}
+/* Hover Effect */
+h2:hover {
+    color: #117dc5;
+}
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
       .banner {
         background: url("night.jpg") no-repeat center center;
         background-size: cover;
