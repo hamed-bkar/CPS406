@@ -632,91 +632,79 @@ nav ul li a:hover {
           const nearbyMapContainer = document.getElementById("nearby-map");
 
           if (nearbyMap) {
-            nearbyMap.remove();
-            nearbyMap = null;
+              nearbyMap.remove();
+              nearbyMap = null;
           }
 
           try {
-            nearbyMapContainer.style.display = "block";
-            nearbyMap = L.map(nearbyMapContainer).setView(
-              [43.6565992, -79.3806612],
-              15
-            );
+              nearbyMapContainer.style.display = "block";
+              nearbyMap = L.map(nearbyMapContainer).setView([43.6565992, -79.3806612], 15);
 
-            L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-              attribution:
-                '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-              maxZoom: 19,
-            }).addTo(nearbyMap);
+              // CartoDB Positron Tile Layer
+              L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', {
+                  attribution: '&copy; <a href="https://www.carto.com/">CartoDB</a> contributors',
+                  maxZoom: 19
+              }).addTo(nearbyMap);
 
-            // Add markers for existing reports
-            const reports = JSON.parse(localStorage.getItem("reports")) || {};
-            Object.entries(reports).forEach(([reportId, report]) => {
-              if (
-                report.latlng &&
-                Array.isArray(report.latlng) &&
-                report.latlng.length === 2
-              ) {
-                try {
-                  L.marker(report.latlng)
-                    .addTo(nearbyMap)
-                    .bindPopup(
-                      `<b>${report.type}</b><br>${
-                        report.verification_status || "Pending"
-                      }`
-                    );
-                } catch (err) {
-                  console.error("Error adding marker:", err);
-                }
-              }
-            });
+              // Add markers for existing reports
+              const reports = JSON.parse(localStorage.getItem("reports")) || {};
+              Object.entries(reports).forEach(([reportId, report]) => {
+                  if (report.latlng && Array.isArray(report.latlng) && report.latlng.length === 2) {
+                      try {
+                          L.marker(report.latlng)
+                              .addTo(nearbyMap)
+                              .bindPopup(`<b>${report.type}</b><br>${report.verification_status || "Pending"}`);
+                      } catch (err) {
+                          console.error("Error adding marker:", err);
+                      }
+                  }
+              });
 
-            setTimeout(() => {
-              nearbyMap.invalidateSize();
-            }, 100);
+              setTimeout(() => {
+                  nearbyMap.invalidateSize();
+              }, 100);
           } catch (err) {
-            console.error("Error initializing nearby map:", err);
+              console.error("Error initializing nearby map with CartoDB Positron:", err);
           }
-        }
+      }
+
 
         // Function to initialize report map
         function initializeReportMap() {
-          const reportMapContainer = document.getElementById("report-map");
+            const reportMapContainer = document.getElementById("report-map");
 
-          if (reportMap) {
-            reportMap.remove();
-            reportMap = null;
-          }
+            if (reportMap) {
+                reportMap.remove();
+                reportMap = null;
+            }
 
-          try {
-            reportMapContainer.style.display = "block";
-            reportMap = L.map(reportMapContainer).setView(
-              [43.6565992, -79.3806612],
-              16
-            );
+            try {
+                reportMapContainer.style.display = "block";
+                reportMap = L.map(reportMapContainer).setView([43.6565992, -79.3806612], 16);
 
-            L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-              attribution:
-                '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-              maxZoom: 19,
-            }).addTo(reportMap);
+                // CartoDB Positron Tile Layer
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.carto.com/">CartoDB</a> contributors',
+                    maxZoom: 19
+                }).addTo(nearbyMap);
 
-            // Add the draggable marker
-            const reportMarker = L.marker([43.6565992, -79.3806612], {
-              draggable: true,
-            }).addTo(reportMap);
+                // Add the draggable marker
+                const reportMarker = L.marker([43.6565992, -79.3806612], {
+                    draggable: true,
+                }).addTo(reportMap);
 
-            reportMarker.on("dragend", function (event) {
-              var marker = event.target;
-              var position = marker.getLatLng();
-            });
+                reportMarker.on("dragend", function (event) {
+                    var marker = event.target;
+                    var position = marker.getLatLng();
+                    console.log("Marker moved to: ", position);
+                });
 
-            setTimeout(() => {
-              reportMap.invalidateSize();
-            }, 100);
-          } catch (err) {
-            console.error("Error initializing report map:", err);
-          }
+                setTimeout(() => {
+                    reportMap.invalidateSize();
+                }, 100);
+            } catch (err) {
+                console.error("Error initializing report map with CartoDB Positron:", err);
+            }
         }
 
         window.addEventListener("load", () => {
