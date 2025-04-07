@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cypress+ Subscription Plans</title>
+  <style>
+    /* Global Styles */
+    :root {
+      --primary-color: #004080;
+      --secondary-color: #28a745;
+      --bg-gradient: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+      --card-bg: #ffffff;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-image: url('night.jpg'); 
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;      
+      color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    h1 {
+      color: var(--primary-color);
+      margin-bottom: 10px;
+    }
+    .container {
+      max-width: 900px;
+      margin: 20px;
+      background: rgba(255,255,255,0.95);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 1s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .section {
+      margin-bottom: 30px;
+    }
+    /* Plan Selection */
+    .plans {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .plan-card {
+      background: var(--card-bg);
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      width: 200px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .plan-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .plan-card.selected {
+      border-color: var(--primary-color);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+    }
+    .plan-title {
+      font-size: 1.3em;
+      margin: 0;
+      color: var(--primary-color);
+    }
+    .plan-price {
+      font-size: 1.6em;
+      color: var(--primary-color);
+      margin: 10px 0;
+    }
+    .plan-extra {
+      color: #e63946;
+      font-weight: bold;
+    }
+    /* Payment Method Section */
+    .payment-methods {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .payment-method {
+      background: var(--card-bg);
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      width: 150px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .payment-method:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .payment-method.selected {
+      border-color: var(--primary-color);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+    }
+    /* Buttons */
+    .button {
+      display: inline-block;
+      margin: 10px 0;
+      padding: 12px 25px;
+      background: var(--primary-color);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      cursor: pointer;
+      border: none;
+      transition: background 0.3s;
+    }
+    .button:hover {
+      background: #003366;
+    }
+    .submit-btn {
+      margin-top: 20px;
+      width: 100%;
+    }
+    /* Form Fields */
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+    }
+    input[type="text"],
+    input[type="email"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      transition: border-color 0.3s;
+    }
+    input[type="text"]:focus,
+    input[type="email"]:focus {
+      border-color: var(--primary-color);
+      outline: none;
+    }
+    /* Steps Navigation */
+    .steps-nav {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .steps-nav button {
+      margin: 0 5px;
+      padding: 10px 15px;
+      background: var(--secondary-color);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+    .steps-nav button:hover {
+      background: #218838;
+    }
+    .steps-nav .disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Cypress+ Subscription</h1>
+
+    
+    <div id="step1" class="section">
+      <h2>Select Your Plan</h2>
+      <div class="plans">
+        <div class="plan-card" data-plan="Ultra">
+          <h3 class="plan-title">Ultra</h3>
+          <h2 class="Duration"> 1 year</h2>
+          <p class="plan-price">CA$8.49 <span>/mo</span></p>
+          <p class="plan-extra">+ 6 EXTRA months</p>
+        </div>
+        <div class="plan-card" data-plan="Complete">
+          <h3 class="plan-title">Complete</h3>
+          <h2 class="Duration"> 6 months </h2>
+          <p class="plan-price">CA$6.39 <span>/mo</span></p>
+          <p class="plan-extra">+ 3 EXTRA months</p>
+        </div>
+        <div class="plan-card" data-plan="Plus">
+          <h3 class="plan-title">Plus</h3>
+          <h2 class="Duration"> 3 months</h2>
+          <p class="plan-price">CA$5.19 <span>/mo</span></p>
+          <p class="plan-extra">+ 1 EXTRA months</p>
+        </div>
+        <div class="plan-card" data-plan="Basic">
+          <h3 class="plan-title">Basic</h3>
+          <h2 class="Duration"> monthly</h2>
+          <p class="plan-price">CA$3.99 <span>/mo</span></p>
+        </div>
+      </div>
+    </div>
+
+    
+    <div id="step2" class="section hidden">
+      <h2>Select a Payment Method</h2>
+      <div class="payment-methods">
+        <div class="payment-method" data-method="credit">
+          <h4>Credit Card</h4>
+        </div>
+        <div class="payment-method" data-method="paypal">
+          <h4>PayPal</h4>
+        </div>
+        <div class="payment-method" data-method="crypto">
+          <h4>Crypto</h4>
+        </div>
+      </div>
+    </div>
+
+    <div id="step3" class="section hidden">
+      <h2 id="methodTitle">Payment Details</h2>
+      <form id="paymentForm">
+        <div id="paymentFields"></div>
+        <button type="submit" class="button submit-btn">Complete Subscription</button>
+      </form>
+    </div>
+
+    
+   <div class="steps-nav">
+      <button id="prevBtn" class="disabled"> Before</button>
+      <button id="nextBtn" class="disabled">Next </button>
+    </div>
+  </div>
+
+  <script>
+    // Step references
+    const step1 = document.getElementById("step1");
+    const step2 = document.getElementById("step2");
+    const step3 = document.getElementById("step3");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+
+    // Data
+    let selectedPlan = null;
+    let selectedMethod = null;
+    let currentStep = 1;
+
+    // Plan cards
+    const planCards = document.querySelectorAll(".plan-card");
+    planCards.forEach(card => {
+      card.addEventListener("click", () => {
+        planCards.forEach(c => c.classList.remove("selected"));
+        card.classList.add("selected");
+        selectedPlan = card.getAttribute("data-plan");
+        nextBtn.classList.remove("disabled");
+      });
+    });
+
+    // Payment methods
+    const paymentMethods = document.querySelectorAll(".payment-method");
+    paymentMethods.forEach(method => {
+      method.addEventListener("click", () => {
+        paymentMethods.forEach(m => m.classList.remove("selected"));
+        method.classList.add("selected");
+        selectedMethod = method.getAttribute("data-method");
+        nextBtn.classList.remove("disabled");
+      });
+    });
+
+    // Payment fields
+    const paymentFields = document.getElementById("paymentFields");
+    const methodTitle = document.getElementById("methodTitle");
+
+    const methodTemplates = {
+      credit: `
+        <label for="cc-name">Cardholder Name</label>
+        <input type="text" id="cc-name" name="cc-name" required>
+        <label for="cc-number">Card Number</label>
+        <input type="text" id="cc-number" name="cc-number" placeholder="1234 5678 9012 3456" required>
+        <label for="cc-exp">Expiry (MM/YY)</label>
+        <input type="text" id="cc-exp" name="cc-exp" placeholder="MM/YY" required>
+        <label for="cc-cvv">CVV</label>
+        <input type="text" id="cc-cvv" name="cc-cvv" placeholder="123" required>
+      `,
+      paypal: `
+        <label for="paypal-email">PayPal Email</label>
+        <input type="email" id="paypal-email" name="paypal-email" placeholder="you@example.com" required>
+      `,
+      crypto: `
+        <label for="crypto-wallet">Crypto Wallet Address</label>
+        <input type="text" id="crypto-wallet" name="crypto-wallet" placeholder="Your wallet address" required>
+      `
+    };
+
+    // Step navigation
+    prevBtn.addEventListener("click", () => {
+      if (currentStep === 2) {
+        currentStep = 1;
+        step1.classList.remove("hidden");
+        step2.classList.add("hidden");
+        step3.classList.add("hidden");
+        prevBtn.classList.add("disabled");
+        nextBtn.classList.remove("disabled");
+      } else if (currentStep === 3) {
+        currentStep = 2;
+        step1.classList.add("hidden");
+        step2.classList.remove("hidden");
+        step3.classList.add("hidden");
+        nextBtn.classList.remove("disabled");
+      }
+    });
+
+    nextBtn.addEventListener("click", () => {
+      if (nextBtn.classList.contains("disabled")) return;
+      if (currentStep === 1) {
+        if (!selectedPlan) return;
+        currentStep = 2;
+        step1.classList.add("hidden");
+        step2.classList.remove("hidden");
+        step3.classList.add("hidden");
+        prevBtn.classList.remove("disabled");
+        nextBtn.classList.add("disabled");
+      } else if (currentStep === 2) {
+        if (!selectedMethod) return;
+        currentStep = 3;
+        step1.classList.add("hidden");
+        step2.classList.add("hidden");
+        step3.classList.remove("hidden");
+        nextBtn.classList.add("disabled");
+        paymentFields.innerHTML = methodTemplates[selectedMethod];
+        methodTitle.textContent = `Enter your ${selectedMethod.toUpperCase()} details`;
+      }
+    });
+
+    // Payment form submission
+    document.getElementById("paymentForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      alert(`Plan: ${selectedPlan}\nMethod: ${selectedMethod}\nYour subscription is complete!`);
+      window.location.reload();
+    });
+  </script>
+</body>
+</html>
