@@ -19,6 +19,15 @@
       integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
       crossorigin=""
     ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/ionicons/dist/css/ionicons.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.min.js"></script>
     <style>
       body {
         font-family: "Roboto", Arial, sans-serif;
@@ -150,29 +159,28 @@
         }
       }
 
-      
-@keyframes move-left-right {
-    0% {
-        transform: translateX(-550px);
-    }
-    50% {
-        transform: translateX(550px);
-    }
-    100% {
-        transform: translateX(-550px);
-    }
-}
-h2::before {
-    content: "\1F341";
-    margin-right: 10px;
-}
-/* Hover Effect */
-h2:hover {
-    color: #117dc5;
-}
-nav ul li a:hover {
-    text-decoration: underline;
-}
+      @keyframes move-left-right {
+        0% {
+          transform: translateX(-550px);
+        }
+        50% {
+          transform: translateX(550px);
+        }
+        100% {
+          transform: translateX(-550px);
+        }
+      }
+      h2::before {
+        content: "\1F341";
+        margin-right: 10px;
+      }
+      /* Hover Effect */
+      h2:hover {
+        color: #117dc5;
+      }
+      nav ul li a:hover {
+        text-decoration: underline;
+      }
 
       .banner {
         background: url("night.jpg") no-repeat center center;
@@ -425,11 +433,16 @@ nav ul li a:hover {
       <section id="get-involved">
         <h2>Get Involved</h2>
         <p>
-          Unlock exclusive benefits with Cypress+! Choose the plan that fits your needs!
-          get priority access to real-time urban issue updates, special member discounts, and a more personalized experience!
+          Unlock exclusive benefits with Cypress+! Choose the plan that fits
+          your needs! get priority access to real-time urban issue updates,
+          special member discounts, and a more personalized experience!
         </p>
         <div>
-          <a class="cta-button blue-button" href="https://cs.torontomu.ca/~hbakkar/cypress+.html">Join Cypress+</a>
+          <a
+            class="cta-button blue-button"
+            href="https://cs.torontomu.ca/~hbakkar/cypress+.html"
+            >Join Cypress+</a
+          >
         </div>
       </section>
 
@@ -631,79 +644,87 @@ nav ul li a:hover {
           const nearbyMapContainer = document.getElementById("nearby-map");
 
           if (nearbyMap) {
-              nearbyMap.remove();
-              nearbyMap = null;
+            nearbyMap.remove();
+            nearbyMap = null;
           }
 
           try {
-              nearbyMapContainer.style.display = "block";
-              nearbyMap = L.map(nearbyMapContainer).setView([43.6565992, -79.3806612], 15);
+            nearbyMapContainer.style.display = "block";
+            nearbyMap = L.map(nearbyMapContainer).setView(
+              [43.6565992, -79.3806612],
+              15
+            );
 
-              // CartoDB Positron Tile Layer
-              L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', {
-                  attribution: '&copy; <a href="https://www.carto.com/">CartoDB</a> contributors',
-                  maxZoom: 19
-              }).addTo(nearbyMap);
+            // CartoDB Positron Tile Layer
+            L.tileLayer(
+              "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png",
+              {
+                attribution:
+                  '&copy; <a href="https://www.carto.com/">CartoDB</a> contributors',
+                maxZoom: 19,
+              }
+            ).addTo(nearbyMap);
 
-              // Add markers for existing reports
-              const reports = JSON.parse(localStorage.getItem("reports")) || {};
-              Object.entries(reports).forEach(([reportId, report]) => {
-                  if (report.latlng && Array.isArray(report.latlng) && report.latlng.length === 2) {
-                      try {
-                          L.marker(report.latlng)
-                              .addTo(nearbyMap)
-                              .bindPopup(`<b>${report.type}</b><br>${report.verification_status || "Pending"}`);
-                      } catch (err) {
-                          console.error("Error adding marker:", err);
-                      }
-                  }
-              });
+            // Add markers for existing reports using the new updateMapMarkers function
+            updateMapMarkers();
 
-              setTimeout(() => {
-                  nearbyMap.invalidateSize();
-              }, 100);
+            setTimeout(() => {
+              nearbyMap.invalidateSize();
+            }, 100);
           } catch (err) {
-              console.error("Error initializing nearby map with CartoDB Positron:", err);
+            console.error(
+              "Error initializing nearby map with CartoDB Positron:",
+              err
+            );
           }
-      }
-
+        }
 
         // Function to initialize report map
         function initializeReportMap() {
-            const reportMapContainer = document.getElementById("report-map");
+          const reportMapContainer = document.getElementById("report-map");
 
-            if (reportMap) {
-                reportMap.remove();
-                reportMap = null;
-            }
+          if (reportMap) {
+            reportMap.remove();
+            reportMap = null;
+          }
 
-            try {
-                reportMapContainer.style.display = "block";
-                reportMap = L.map(reportMapContainer).setView([43.6565992, -79.3806612], 16);
+          try {
+            reportMapContainer.style.display = "block";
+            reportMap = L.map(reportMapContainer).setView(
+              [43.6565992, -79.3806612],
+              16
+            );
 
-                // CartoDB Positron Tile Layer
-                L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', {
-                    attribution: '&copy; <a href="https://www.carto.com/">CartoDB</a> contributors',
-                    maxZoom: 19
-                }).addTo(nearbyMap);
+            // CartoDB Positron Tile Layer
+            L.tileLayer(
+              "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png",
+              {
+                attribution:
+                  '&copy; <a href="https://www.carto.com/">CartoDB</a> contributors',
+                maxZoom: 19,
+              }
+            ).addTo(reportMap);
 
-                // Add the draggable marker
-                const reportMarker = L.marker([43.6565992, -79.3806612], {
-                    draggable: true,
-                }).addTo(reportMap);
+            // Add the draggable marker
+            const reportMarker = L.marker([43.6565992, -79.3806612], {
+              draggable: true,
+            }).addTo(reportMap);
 
-                reportMarker.on("dragend", function (event) {
-                    var marker = event.target;
-                    var position = marker.getLatLng();
-                    console.log("Marker moved to: ", position);
-                });
+            reportMarker.on("dragend", function (event) {
+              var marker = event.target;
+              var position = marker.getLatLng();
+              console.log("Marker moved to: ", position);
+            });
 
-                setTimeout(() => {
-                    reportMap.invalidateSize();
-                }, 100);
-            } catch (err) {
-                console.error("Error initializing report map with CartoDB Positron:", err);
-            }
+            setTimeout(() => {
+              reportMap.invalidateSize();
+            }, 100);
+          } catch (err) {
+            console.error(
+              "Error initializing report map with CartoDB Positron:",
+              err
+            );
+          }
         }
 
         window.addEventListener("load", () => {
@@ -717,6 +738,120 @@ nav ul li a:hover {
             }, 500);
           }
         });
+
+        function updateMapMarkers() {
+          // Only proceed if nearbyMap exists
+          if (!nearbyMap) return;
+
+          // Clear existing markers
+          nearbyMap.eachLayer((layer) => {
+            if (layer instanceof L.Marker) {
+              nearbyMap.removeLayer(layer);
+            }
+          });
+
+          // Add markers with appropriate colors based on verification status
+          const reports = JSON.parse(localStorage.getItem("reports")) || {};
+          Object.entries(reports).forEach(([reportId, report]) => {
+            if (
+              report.latlng &&
+              Array.isArray(report.latlng) &&
+              report.latlng.length === 2
+            ) {
+              try {
+                // Create an awesome marker with the appropriate color
+                const markerColor =
+                  report.verification_status === "Unverified"
+                    ? "orange"
+                    : "blue";
+                const awesomeMarker = L.AwesomeMarkers.icon({
+                  icon: "ion-ios-information-circle",
+                  markerColor: markerColor,
+                  prefix: "ion",
+                });
+                const marker = L.marker(report.latlng, {
+                  icon: awesomeMarker,
+                }).addTo(nearbyMap);
+                const buttonHTML =
+                  report.verification_status === "Unverified"
+                    ? `<div style="margin-top: 10px; text-align: center;">
+            <button 
+              disabled
+              style="padding: 8px 12px; background-color: #cccccc; color: white; border: none; border-radius: 4px; cursor: not-allowed;">
+              Already Marked as Unverified
+            </button>
+          </div>`
+                    : `<div style="margin-top: 10px; text-align: center;">
+            <button 
+              id="invalidate-${reportId}" 
+              style="padding: 8px 12px; background-color: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;"
+              onclick="markReportAsInvalid('${reportId}')">
+              Mark Report as Invalid
+            </button>
+          </div>`;
+
+                marker.bindPopup(`
+          <div class="popup-content" style="min-width: 200px;">
+            <h3 style="margin: 0 0 10px 0; color: #004080; border-bottom: 1px solid #ddd; padding-bottom: 5px;">Report Details</h3>
+            <p><strong>Type:</strong> ${report.type}</p>
+            <p><strong>Verification Status:</strong> <span id="verification-status-${reportId}">${
+                  report.verification_status || "Pending"
+                }</span></p>
+            <p><strong>Progress:</strong> ${
+              report.progress_status || "Pending"
+            }</p>
+            ${buttonHTML}
+          </div>
+        `);
+              } catch (err) {
+                console.error("Error adding marker:", err);
+              }
+            }
+          });
+        }
+
+        // Modify the markReportAsInvalid function to update marker color immediately
+        function markReportAsInvalid(reportId) {
+          // Get existing reports
+          let reports = JSON.parse(localStorage.getItem("reports")) || {};
+
+          // Check if report exists
+          if (reports[reportId]) {
+            // Update verification status
+            reports[reportId].verification_status = "Unverified";
+
+            // Save updated reports
+            localStorage.setItem("reports", JSON.stringify(reports));
+
+            // Update the text in the popup immediately
+            const statusElement = document.getElementById(
+              `verification-status-${reportId}`
+            );
+            if (statusElement) {
+              statusElement.textContent = "Unverified";
+            }
+
+            // Replace the button with disabled version
+            const button = document.getElementById(`invalidate-${reportId}`);
+            if (button) {
+              const buttonContainer = button.parentElement;
+              buttonContainer.innerHTML = `
+        <button 
+          disabled
+          style="padding: 8px 12px; background-color: #cccccc; color: white; border: none; border-radius: 4px; cursor: not-allowed;">
+          Already Marked as Unverified
+        </button>
+      `;
+            }
+
+            loadMyReports();
+
+            updateMapMarkers();
+
+            alert("Report has been marked as requiring verification.");
+          }
+        }
+        window.markReportAsInvalid = markReportAsInvalid;
 
         // Hide all sections function
         function hideAllSections() {
@@ -786,6 +921,7 @@ nav ul li a:hover {
             sessionStorage.removeItem("currentUser");
             window.location.href =
               "https://cs.torontomu.ca/~hbakkar/Login.html";
+            // window.location.href = "Login.html";
           });
         }
 
