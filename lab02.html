@@ -331,6 +331,65 @@
       tr:hover {
         background-color: #f0f0f0;
       }
+
+      .bell-icon {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      font-size: 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* Popup box */
+    .subscribe-popup {
+      display: none;
+      position: fixed;
+      top: 60px;
+      right: 20px;
+      width: 220px;
+      padding: 15px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+      z-index: 999;
+    }
+
+    /* Close button (X) */
+    .close {
+      float: right;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    /* Stylish Subscribe Button */
+    #subscribeBtn {
+      background-color: #1e3a8a; /* navy blue */
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 15px;
+      width: 100%;
+    }
+
+    #subscribeBtn:hover {
+      background-color: #3b4cca; /* lighter navy on hover */
+    }
+
+    #subscribeBtn:active {
+      transform: scale(0.97);
+    }
+    .popup-text {
+      font-size: 14px;
+      margin: 10px 0;
+      color: #333;
+    }
     </style>
   </head>
   <body>
@@ -361,6 +420,18 @@
         <li><a href="#" id="logout-link">Logout</a></li>
       </ul>
     </nav>
+
+    <!-- Bell Icon -->
+    <button id="bellBtn" class="bell-icon">🔔</button>
+
+    <!-- Popup -->
+    <div id="subscribePopup" class="subscribe-popup">
+      <span class="close">&times;</span>
+      <h3>Notifications</h3>
+      <p class="popup-text">Stay up to date on reported issues in your area.</p>
+      <button id="subscribeBtn">Subscribe</button>
+    </div>
+
 
     <main>
       <div style="text-align: center; padding-bottom: 20px">
@@ -1385,6 +1456,41 @@
           updateUnreadBadge();
         });
       });
+
+      
+      const bellBtn = document.getElementById('bellBtn');
+    const popup = document.getElementById('subscribePopup');
+    const closeBtn = document.querySelector('.close');
+    const subscribeBtn = document.getElementById('subscribeBtn');
+
+    // Toggle popup visibility
+    bellBtn.onclick = () => {
+      popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+    };
+
+    // Close popup
+    closeBtn.onclick = () => {
+      popup.style.display = 'none';
+    };
+
+    // Optional: Hide popup if clicking outside
+    window.onclick = function(event) {
+      if (!popup.contains(event.target) && event.target !== bellBtn) {
+        popup.style.display = 'none';
+      }
+    };
+
+    // Toggle button text
+    subscribeBtn.onclick = () => {
+      if (subscribeBtn.textContent === 'Subscribe') {
+        subscribeBtn.textContent = 'Unsubscribe';
+      } else {
+        subscribeBtn.textContent = 'Subscribe';
+      }
+    };
+
+
+
     </script>
   </body>
 </html>
