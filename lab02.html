@@ -28,6 +28,8 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"
     />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
       body {
         font-family: "Roboto", Arial, sans-serif;
@@ -333,19 +335,25 @@
       }
 
       .bell-icon {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      font-size: 24px;
-      background: none;
-      border: none;
-      cursor: pointer;
-    }
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 10px; 
+      }
+
+      .bell-icon i {
+        font-size: 30px;
+        color: white;
+        pointer-events: none; 
+      } 
 
     /* Popup box */
     .subscribe-popup {
       display: none;
-      position: fixed;
+      position: absolute;
       top: 60px;
       right: 20px;
       width: 220px;
@@ -367,7 +375,7 @@
     /* Stylish Subscribe Button */
     #subscribeBtn {
       background-color: #1e3a8a; /* navy blue */
-      color: white;
+      color: rgb(255, 255, 255);
       padding: 10px 20px;
       border: none;
       border-radius: 8px;
@@ -422,8 +430,9 @@
     </nav>
 
     <!-- Bell Icon -->
-    <button id="bellBtn" class="bell-icon">🔔</button>
-
+    <button id="bellBtn" class="bell-icon">
+      <i class="fa fa-bell"></i>
+    </button>
     <!-- Popup -->
     <div id="subscribePopup" class="subscribe-popup">
       <span class="close">&times;</span>
