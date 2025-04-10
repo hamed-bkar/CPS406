@@ -135,7 +135,7 @@
 
       // Initialize data when page loads
       document.addEventListener("DOMContentLoaded", function () {
-        //resetToDefault();
+        resetToDefault();
         initializeDefaultData();
       });
     </script>
@@ -244,14 +244,6 @@
         >Don't have an account? Register here</a
       >
       -->
-      <div class="test-section">
-        <br />
-        <br />
-        <button id="reset-data-button" class="reset-button" type="button">
-          Use this button to reset your users and report data (testing only-
-          will be deleted)
-        </button>
-      </div>
     </div>
 
     <script>
@@ -285,13 +277,6 @@
           sessionStorage.setItem("currentUser", email);
           window.location.href = "https://cs.torontomu.ca/~hbakkar/lab02.html";
           // window.location.href = "lab02.html";
-        });
-
-      document
-        .getElementById("reset-data-button")
-        .addEventListener("click", function () {
-          resetToDefault();
-          alert("Your data is cleared, back to default database");
         });
     </script>
   </body>
